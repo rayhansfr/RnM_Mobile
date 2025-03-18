@@ -15,11 +15,14 @@ import com.example.rnmmobile.databinding.ActivityDetailBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityDetailBinding.inflate(layoutInflater) }
+    private var _binding: ActivityDetailBinding? = null
+    private val binding get() = _binding!!
+
     private val detailViewModel: DetailActivityViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -110,4 +113,8 @@ class DetailActivity : AppCompatActivity() {
         binding.charSpecies.text = char.species
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

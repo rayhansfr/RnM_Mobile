@@ -12,13 +12,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
 class FavoriteActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityFavoriteBinding
+    private var _binding: ActivityFavoriteBinding? = null
+    private val binding get() = _binding!!
     private val characterAdapter by lazy { CharacterListAdapter() }
     private val viewModel: FavoriteViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFavoriteBinding.inflate(layoutInflater)
+        _binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loadKoinModules(favoriteModule)
 
@@ -61,5 +62,9 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }
